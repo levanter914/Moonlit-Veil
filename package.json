@@ -12,8 +12,10 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.0.12",
     "firebase": "^11.4.0",
+    "nes.css": "^2.2.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-router-dom": "^7.3.0",
     "tailwindcss": "^4.0.12"
   },
   "devDependencies": {

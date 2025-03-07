@@ -1,0 +1,82 @@
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+@import "tailwindcss";
+
+body {
+  margin: 0;
+  font-family: 'Press Start 2P', cursive;
+  background-color: black;
+  color: white;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: black;
+  color: white;
+  overflow-x: hidden;
+}
+
+.nes-container {
+  margin-bottom: 20px;
+  padding: 1rem;
+}
+
+.nes-btn {
+  margin: 5px 0;
+  padding: 0.75rem 1rem;
+  min-height: 44px; /* Minimum touch target size */
+  touch-action: manipulation;
+}
+
+.choices button:hover {
+  transform: scale(1.05);
+  transition: transform 0.2s;
+}
+
+.main-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: black;
+  color: white;
+  padding: 1rem;
+}
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1rem;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  #root {
+    padding: 1rem 0.5rem;
+  }
+  
+  .nes-container {
+    padding: 0.75rem;
+  }
+  
+  .nes-btn {
+    width: 100%;
+    margin: 0.5rem 0;
+  }
+}
+
+@property --border-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes border-rotate {
+  0% {
+    --border-angle: 0deg;
+  }
+  100% {
+    --border-angle: 360deg;
+  }
+}
+
+.animate-border-rotate {
+  animation: border-rotate 3s linear infinite;
+}
