@@ -10,6 +10,7 @@ const Home = () => {
     <div className="relative flex flex-col items-center justify-center h-screen font-bold text-white">
       <h1>Home</h1>
     </div>
+    
   </div>
     
   )
