@@ -23,3 +23,22 @@
   animation: float 2s ease-in-out infinite;
 }
 
+.custom-nes-btn {
+  background-color: white;
+  color: black;
+  padding: 8px 8px;
+  font-size: 1 rem;
+  font-weight: bold;
+  border-color: #000000 !important;
+  transition: all 0.6s ease-in-out;
+}
+
+.custom-nes-btn:hover {
+  transform: scale(1.1);
+  background-color:#6675b6;
+  color: white;
+  border-color: #29294b ;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 1), 
+              0 0 50px rgba(0, 0, 0, 0.9),
+              0 0 15px rgba(37, 54, 100, 0.8);
+}

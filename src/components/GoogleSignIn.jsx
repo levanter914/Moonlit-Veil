@@ -1,12 +1,25 @@
+import { useNavigate } from "react-router-dom";
 import { signInWithGoogle } from "../firebase.js";
 
 const GoogleSignIn = () => {
+  const navigate = useNavigate();
+
+  const handleSignIn = async () => {
+    try {
+      await signInWithGoogle();
+      navigate("/home");
+    } catch (error) {
+      console.error("Sign-in failed:", error);
+    }
+  };
+
   return (
-    <button 
-      onClick={signInWithGoogle} 
-      className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-600 transition"
+    <button
+      onClick={handleSignIn}
+      type="button"
+      className="nes-btn custom-nes-btn"
     >
-      Sign in with Google
+      Begin Your Journey
     </button>
   );
 };
