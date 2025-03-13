@@ -7,6 +7,8 @@ import DuskridgePeaks from "./pages/DuskridgePeaks";
 import EverbloomMeadow from "./pages/EverbloomMeadow";
 import MirageHaven from "./pages/MirageHaven";
 import ThemeSelection from "./pages/ThemeSelection";
+import BadEnd from "./pages/BadEnd";
+import GoodEnd from "./pages/GoodEnd";
 import avatar from "./assets/avatar.png"; 
 
 function App() {
@@ -17,6 +19,8 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/theme-selection" element={<ThemeSelection />} />
+        <Route path="/bad-end" element={<BadEnd />} />
+        <Route path="/good-end" element={<GoodEnd />} />
         <Route path="/everbloom-meadow" element={<EverbloomMeadow />} />
         <Route path="/duskridge-peaks" element={<DuskridgePeaks />} />
         <Route path="/mirage-haven" element={<MirageHaven />} />
