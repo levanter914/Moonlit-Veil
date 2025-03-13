@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { generateQuizQuestions } from '../services/geminiService';
+import { generateQuizQuestions } from '../services/geminiServices.js';
 
 export function useQuiz(theme) {
   const [questions, setQuestions] = useState([]);

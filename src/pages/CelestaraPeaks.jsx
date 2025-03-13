@@ -1,4 +1,5 @@
 import React from 'react'
+import QuizComponent from '../components/QuizComponent'
 
 const CelestaraPeaks = () => {
   return (
@@ -8,7 +9,13 @@ const CelestaraPeaks = () => {
       <div className="absolute inset-0 bg-black opacity-20"></div>
 
       <div className="relative flex flex-col items-center justify-center h-screen font-bold text-white">
-        <h1>Welcome to Celestara Peaks</h1>
+        <QuizComponent
+          theme="Celestara Peaks"
+          background="/assets/CelestaraPeaks.png"
+          titleColor="#001f3f"
+          containerColor="#0a1930"
+          borderColor="#89CFF0"
+        />
       </div>
     </div>
   )

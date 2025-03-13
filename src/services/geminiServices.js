@@ -8,17 +8,17 @@ if (!API_KEY) {
 
 const genAI = new GoogleGenerativeAI(API_KEY);
 
-const QUIZ_PROMPT = `Generate 10 pixel-style, scenario-based multiple-choice quiz questions related to the theme {THEME}, where the player's choices directly influence the game world. Each scenario should be short, with pixel art-style language, and include four options (one correct, three incorrect). Keep the choices brief and impactful. All questions need to be real world problems.
+const QUIZ_PROMPT = `Generate 5 pixel-style, scenario-based multiple-choice quiz questions related to the theme {THEME}, where the player's choices directly impact the game world. Each scenario should present a moral or ethical dilemma faced by a traveler exploring the realm. The situations should be engaging and present real-world ethical challenges **through a pixel RPG adventure lens**.  
 
-## Output Format:
-Generate a JSON object with the following structure, do not use backticks or markdown inside  only brackets are allowed, provide in VALID JSON FORMAT and stricly follow the given json structure bellow:
+### Output Format:  
+Generate a valid JSON object with the following structure : 
 
 {
   "theme": "{theme_name}",
   "questions": [
     {
       "id": "q1",
-      "scenario": "string (50-100 characters)",
+      "scenario": "string (50-100 characters, describing an ethical dilemma in a journey)",
       "choices": [
         "A) string (max 50 chars)",
         "B) string (max 50 chars)",
@@ -26,56 +26,58 @@ Generate a JSON object with the following structure, do not use backticks or mar
         "D) string (max 50 chars)"
       ],
       "correct_answer": "string (matching exact choice text)",
-      "explanation": "string (max 100 chars)",
+      "explanation": "string (max 100 chars, explaining moral reasoning behind the right choice)",
       "impact_on_game": {
-        "success": "string (effect if correct)",
-        "failure": "string (effect if wrong)"
+        "success": "string (positive game effect for right choice)",
+        "failure": "string (consequence for wrong choice)"
       }
     }
   ]
 }
 
-## Requirements:
-1. Scenario Style:
-   - Use pixel-game style language (casual, fun, adventurous)
-   - Include relevant emoji at start of each scenario
-   - Keep descriptions concise but vivid
-   - Focus on action and immediate decisions
+### Requirements:  
 
-2. Answer Choices:
-   - One clearly correct answer
-   - Three plausible but incorrect alternatives
-   - All choices should be brief (max 50 characters)
-   - Label choices A) through D)
-   - Make each choice meaningfully different
+#### 1. Scenario Style (Pixel RPG Ethics Adventure)
+- Frame each ethical dilemma as part of a journey through the realm  
+- Use pixel-game style language (casual, adventurous, immersive)  
+- Start with a relevant emoji to add visual appeal  
+- Keep descriptions vivid but concise (max 100 chars)  
+- Focus on real-world moral dilemmas adapted to the fantasy setting 
 
-3. Game Impact:
-   - Success effects should unlock new abilities, areas, or resources
-   - Failure effects should create meaningful but not game-ending consequences
-   - Effects should be thematically consistent
+#### 2. Answer Choices (Ethical Decision-Making)
+- One correct, ethical response  
+- Three plausible but morally/strategically incorrect alternatives  
+- Label choices A) through D) 
+- Keep all choices max 50 characters  
+- Make each choice meaningfully different 
 
-4. Content Guidelines:
-   - Keep language family-friendly
-   - Focus on problem-solving and positive actions
-   - Maintain consistent difficulty level
-   - Ensure scenarios are logically connected to the theme
+#### 3. Game Impact (Moral Consequences in Gameplay)  
+- Success effects unlock abilities, allies, or advantages  
+- Failure effects should have consequences but not be game-ending  
+- Make effects thematically consistent with the realm  
 
-## Example Question:
+#### 4. Content Guidelines  
+- Real-world ethical dilemmas (e.g., environmental ethics, honesty, fairness, responsibility)  
+- Language should remain family-friendly
+- Ensure logical consistency in dilemmas and responses  
+- Maintain consistent difficulty level 
+
+### Example Question (Moral/Ethical Dilemma in a Fantasy Realm)  
 
 {
   "id": "q1",
-  "scenario": "🔥 *Crack!* A spark ignites the ancient forest. Magical creatures flee in panic. Quick, what's your move?",
+  "scenario": "🔥A starving villager begs for food. You only have enough rations for yourself. What do you do?",
   "choices": [
-    "A) Cast a rain spell and rescue the creatures",
-    "B) Ignore the flames",
-    "C) Catch the creatures",
-    "D) Run away"
+    "A) Give half your rations and find more later",
+    "B) Ignore them and walk away",
+    "C) Demand they trade something valuable",
+    "D) Tell them to find their own food"
   ],
-  "correct_answer": "A) Cast a rain spell and rescue the creatures",
-  "explanation": "Quick thinking with magic saves both forest and creatures!",
+  "correct_answer": "A) Give half your rations and find more later",
+  "explanation": "Sharing resources builds trust and opens future opportunities.",
   "impact_on_game": {
-    "success": "Unlock water magic abilities and gain forest creatures' trust",
-    "failure": "Forest area becomes temporarily inaccessible, lose creature allies"
+    "success": "Gain ally who helps you find hidden resources later",
+    "failure": "Lose reputation in village, fewer trade opportunities"
   }
 }
 `;

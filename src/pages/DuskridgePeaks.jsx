@@ -1,4 +1,5 @@
 import React from 'react'
+import QuizComponent from '../components/QuizComponent'
 
 const DuskridgePeaks = () => {
   return (
@@ -8,7 +9,13 @@ const DuskridgePeaks = () => {
       <div className="absolute inset-0 bg-black opacity-20"></div>
 
       <div className="relative flex flex-col items-center justify-center h-screen font-bold text-white">
-        <h1>Welcome to Duskridge Peaks</h1>
+        <QuizComponent
+          theme="Duskridge Peaks"
+          background="./assets/DuskridgePeaks.png"
+          titleColor="#4a2c2a"
+          containerColor="#6e4b47"
+          borderColor="#8b6f68"
+        />
       </div>
     </div>
   )

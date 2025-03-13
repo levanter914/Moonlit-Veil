@@ -1,4 +1,5 @@
 import React from 'react'
+import QuizComponent from '../components/QuizComponent'
 
 const EverbloomMeadow = () => {
   return (
@@ -8,7 +9,13 @@ const EverbloomMeadow = () => {
       <div className="absolute inset-0 bg-black opacity-20"></div>
 
       <div className="relative flex flex-col items-center justify-center h-screen font-bold text-white">
-        <h1>Welcome to Everbloom Meadow</h1>
+        <QuizComponent
+          theme="Everbloom Meadow"
+          background="./assets/EverbloomMeadow.png"
+          titleColor="#3f7300"
+          containerColor="#a8e6a3"
+          borderColor="#4caf50"
+        />
       </div>
     </div>
     
