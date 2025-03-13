@@ -1,7 +1,9 @@
 import React from "react";
-import GoogleSignIn from "../components/GoogleSignIn.jsx";
+import { useNavigate } from "react-router-dom";
 
 const Landing = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="relative h-screen w-full">
       <div className="absolute inset-0 bg-[url('./assets/landing.png')] bg-contain bg-center bg-repeat"></div>
@@ -18,7 +20,13 @@ const Landing = () => {
         </p>
 
         <div className="mt-12">
-          <GoogleSignIn />
+          <button
+            onClick={() => navigate("/login")}
+            type="button"
+            className="nes-btn custom-nes-btn"
+          >
+            Begin Your Journey
+          </button>
         </div>
       </div>
     </div>
