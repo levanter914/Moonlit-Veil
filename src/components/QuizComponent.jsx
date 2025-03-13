@@ -1,56 +1,49 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuiz } from "../hooks/useQuiz";
-import { db } from "../firebase"; // Import Firebase
-import { doc, getDoc, setDoc } from "firebase/firestore";
 import "nes.css/css/nes.min.css";
 import ScoreDisplay from "./ScoreDisplay";
+import { db } from "../firebase"; // Ensure Firebase is configured properly
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
-const QuizComponent = ({ theme, background, titleColor, containerColor, borderColor }) => {
+const QuizComponent = ({ theme, background, titleColor, containerColor, borderColor, username }) => {
   const navigate = useNavigate();
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
   const [hearts, setHearts] = useState(3);
   const [showFeedback, setShowFeedback] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
-  const [answered, setAnswered] = useState(false); // Prevent multiple clicks
+  const [answered, setAnswered] = useState(false);
 
   const { questions, loading, error } = useQuiz(theme);
-  const username = "sh"; // All usernames set to "sh"
 
-  // Fetch score from Firebase on mount
+  // Fetch score from Firebase
   useEffect(() => {
     const fetchScore = async () => {
+      if (!username) return;
+
       const userRef = doc(db, "scores", username);
       const userSnap = await getDoc(userRef);
 
       if (userSnap.exists()) {
         const userData = userSnap.data();
         setScore(userData.score || 0);
-        setHearts(userData.hearts || 3);
       } else {
-        // Initialize score in Firebase if it doesn't exist
-        await setDoc(userRef, { score: 0, hearts: 3 });
-        setScore(0);
-        setHearts(3);
+        // Initialize score in Firestore
+        await setDoc(userRef, { score: 0 });
       }
     };
 
     fetchScore();
-  }, []);
+  }, [username]);
 
-  if (loading)
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen space-y-4">
-        <p className="nes-text text-white drop-shadow-[4px_4px_0px_black] text-lg">Loading...</p>
-        <progress className="nes-progress  w-60 md:w-72 lg:w-80" value="50" max="100"></progress>
-      </div>
-    );
+  // Update score in Firestore
+  const updateScoreInDB = async (newScore) => {
+    if (!username) return;
+    await setDoc(doc(db, "scores", username), { score: newScore });
+  };
 
-  if (error) return <p>Error: {error}</p>;
-  if (!questions || questions.length === 0) return <p>No questions available</p>;
-
-  const handleAnswer = async (selectedChoice) => {
+  const handleAnswer = (selectedChoice) => {
     if (answered) return;
     setAnswered(true);
 
@@ -58,25 +51,19 @@ const QuizComponent = ({ theme, background, titleColor, containerColor, borderCo
     setIsCorrect(correct);
     setShowFeedback(true);
 
-    let newScore = score;
-    let newHearts = hearts;
-
     if (correct) {
-      newScore += 3;
+      const newScore = score + 3;
+      setScore(newScore);
+      updateScoreInDB(newScore);
     } else {
-      newHearts -= 1;
-      if (newHearts <= 0) {
-        await setDoc(doc(db, "scores", username), { score: newScore, hearts: newHearts }, { merge: true });
-        navigate("/bad-end");
-        return;
-      }
+      setHearts((prevHearts) => {
+        const newHearts = prevHearts - 1;
+        if (newHearts <= 0) {
+          navigate("/bad-end"); // Redirect to Bad Ending
+        }
+        return newHearts;
+      });
     }
-
-    setScore(newScore);
-    setHearts(newHearts);
-
-    // Update Firebase with new score
-    await setDoc(doc(db, "scores", username), { score: newScore, hearts: newHearts }, { merge: true });
 
     setTimeout(() => handleNext(), 2000);
   };
@@ -87,21 +74,29 @@ const QuizComponent = ({ theme, background, titleColor, containerColor, borderCo
       setShowFeedback(false);
       setAnswered(false);
     } else {
-      navigate("/good-end"); // Good ending if all questions are completed
+      navigate("/good-end"); // Redirect to Good Ending
     }
   };
+
+  if (loading)
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen space-y-4">
+        <p className="nes-text text-white drop-shadow-[4px_4px_0px_black] text-lg">Loading...</p>
+        <progress className="nes-progress w-60 md:w-72 lg:w-80" value="50" max="100"></progress>
+      </div>
+    );
+
+  if (error) return <p>Error: {error}</p>;
+  if (!questions || questions.length === 0) return <p>No questions available</p>;
 
   const currentQ = questions[currentQuestion];
 
   return (
     <div className="relative min-h-screen flex flex-col items-center justify-center px-4">
-      {/* Background Image */}
       <img src={background} alt="Theme Background" className="fixed top-0 left-0 w-full h-screen object-cover -z-10" />
 
-      {/* Score & Hearts Display */}
       <ScoreDisplay score={score} hearts={hearts} />
 
-      {/* Quiz Container */}
       <div
         className="nes-container is-rounded with-title animate-fade-in animate-duration-1000 p-6"
         style={{
@@ -110,7 +105,6 @@ const QuizComponent = ({ theme, background, titleColor, containerColor, borderCo
           maxWidth: "800px",
         }}
       >
-        {/* Title Bar */}
         <span
           className="title"
           style={{ backgroundColor: titleColor, padding: "0 10px", borderRadius: "15px" }}
@@ -119,12 +113,10 @@ const QuizComponent = ({ theme, background, titleColor, containerColor, borderCo
           <i className="nes-icon heart is-small"></i>
         </span>
 
-        {/* Question Box */}
         <div className="nes-container is-rounded my-6 p-5" style={{ backgroundColor: "#ffffff" }}>
           <p className="nes-text text-black drop-shadow-[2px_0px_0px_gray]">{currentQ.scenario}</p>
         </div>
 
-        {/* Answer Choices */}
         {!showFeedback && (
           <div className="choices flex flex-col gap-2 mt-6">
             {currentQ.choices.map((choice, index) => (
@@ -140,7 +132,6 @@ const QuizComponent = ({ theme, background, titleColor, containerColor, borderCo
           </div>
         )}
 
-        {/* Feedback Message */}
         {showFeedback && (
           <div className={`nes-container is-rounded my-6 mt-8 p-4 ${isCorrect ? "is-success" : "is-error"}`}>
             <p className="nes-text">{isCorrect ? "Correct!" : "Incorrect!"}</p>
