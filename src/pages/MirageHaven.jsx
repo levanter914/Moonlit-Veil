@@ -1,7 +1,14 @@
 import React from 'react'
 import QuizComponent from '../components/QuizComponent'
+import { useContext, useEffect } from "react";
+import { MusicContext } from "../context/MusicContext";
 
 const MirageHaven = () => {
+  const { changeTrack } = useContext(MusicContext);
+
+  useEffect(() => {
+    changeTrack("mirage");
+  }, []);
   return (
     <div className="relative h-screen w-full">
     <div className="absolute inset-0 bg-[url('./assets/MirageHaven.png')] bg-contain bg-center bg-repeat"></div>

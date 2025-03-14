@@ -1,6 +1,13 @@
 import React from 'react'
+import { useContext, useEffect } from "react";
+import { MusicContext } from "../context/MusicContext";
 
 const GoodEnd = () => {
+  const { changeTrack } = useContext(MusicContext);
+
+  useEffect(() => {
+    changeTrack("good-ending");
+  }, []);
   return (
     <div className="relative h-screen w-full flex items-center justify-center px-6">
       {/* Background Image */}

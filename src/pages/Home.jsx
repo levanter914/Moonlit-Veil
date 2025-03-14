@@ -1,8 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Rules from "../components/Rules";
+import { MusicContext } from "../context/MusicContext";
 
 const Home = () => {
+  const { changeTrack } = useContext(MusicContext);
+  
+  useEffect(() => {
+    changeTrack("landing");
+  }, []);
+  
   const [username, setUsername] = useState("Traveler");
   const navigate = useNavigate();
 

@@ -1,7 +1,14 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import { MusicContext } from "../context/MusicContext";
 
 const Landing = () => {
+  const { changeTrack } = useContext(MusicContext);
+    
+  useEffect(() => {
+    changeTrack("landing");
+  }, []);
   const navigate = useNavigate();
 
   return (
