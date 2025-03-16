@@ -74,7 +74,7 @@ const QuizComponent = ({ theme, background, titleColor, containerColor, borderCo
       setShowFeedback(false);
       setAnswered(false);
     } else {
-      navigate("/good-end"); // Redirect to Good Ending
+      navigate("/good-end"); 
     }
   };
 

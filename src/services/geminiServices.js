@@ -106,7 +106,7 @@ export async function generateQuizQuestions(theme) {
 
     // Get the raw text response
     const text = await result.response.text();
-    console.log("Received raw response:", text);
+    console.log("Received raw response:");
 
     // Clean up the response by:
     // - Removing markdown artifacts
@@ -119,7 +119,7 @@ export async function generateQuizQuestions(theme) {
       .replace(/,\s*}/g, '}')                     // Remove trailing commas
       .replace(/,\s*]/g, ']');                    // Remove trailing commas in arrays
 
-    console.log("Cleaned response:", cleanedText);
+    console.log("Cleaned response:");
 
     // Parse the cleaned JSON response
     const parsedData = JSON.parse(cleanedText);

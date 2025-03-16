@@ -10,14 +10,14 @@ import MirageHaven from "./pages/MirageHaven";
 import ThemeSelection from "./pages/ThemeSelection";
 import BadEnd from "./pages/BadEnd";
 import GoodEnd from "./pages/GoodEnd";
-import MusicPlayer from "./components/MusicPlayer"; // Import MusicPlayer
-import { MusicProvider } from "./context/MusicContext"; // Import MusicProvider
+import MusicPlayer from "./components/MusicPlayer"; 
+import { MusicProvider } from "./context/MusicContext"; 
 import avatar from "./assets/avatar.png";
 
 function App() {
   usePreventZoom();
   return (
-    <MusicProvider> {/* Wrap everything inside MusicProvider */}
+    <MusicProvider> 
       <div className="relative min-h-screen">
         <Routes>
           <Route path="/" element={<Landing />} />
