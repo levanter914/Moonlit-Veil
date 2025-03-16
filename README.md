@@ -1,5 +1,4 @@
 # TO-DO
 
-1. make the links private
-2. 404 error
-3. prevent zoom
+1. Leaderboard
+2. about page
