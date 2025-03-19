@@ -3,8 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { useQuiz } from "../hooks/useQuiz";
 import "nes.css/css/nes.min.css";
 import ScoreDisplay from "./ScoreDisplay";
-import { db } from "../firebase"; // Ensure Firebase is configured properly
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { db } from "../firebase"; 
+import { doc, getDoc, setDoc , updateDoc} from "firebase/firestore";
+
 
 const QuizComponent = ({ theme, background, titleColor, containerColor, borderColor, username }) => {
   const navigate = useNavigate();
@@ -40,7 +41,21 @@ const QuizComponent = ({ theme, background, titleColor, containerColor, borderCo
   // Update score in Firestore
   const updateScoreInDB = async (newScore) => {
     if (!username) return;
-    await setDoc(doc(db, "scores", username), { score: newScore });
+  
+    try {
+      const userRef = doc(db, "scores", username);
+      const userSnap = await getDoc(userRef);
+  
+      if (userSnap.exists()) {      
+        await updateDoc(userRef, { score: newScore });
+        console.log(`Score updated for ${username}: ${newScore}`);
+      } else {
+        await setDoc(userRef, { score: newScore });
+        console.log(`New user score initialized for ${username}: ${newScore}`);
+      }
+    } catch (error) {
+      console.error("Error updating score:", error);
+    }
   };
 
   const handleAnswer = (selectedChoice) => {

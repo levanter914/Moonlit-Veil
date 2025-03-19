@@ -10,6 +10,7 @@ import MirageHaven from "./pages/MirageHaven";
 import ThemeSelection from "./pages/ThemeSelection";
 import BadEnd from "./pages/BadEnd";
 import GoodEnd from "./pages/GoodEnd";
+import Leaderboard from "./pages/Leaderboard";
 import MusicPlayer from "./components/MusicPlayer"; 
 import { MusicProvider } from "./context/MusicContext"; 
 import avatar from "./assets/avatar.png";
@@ -26,6 +27,7 @@ function App() {
           <Route path="/theme-selection" element={<ThemeSelection />} />
           <Route path="/bad-end" element={<BadEnd />} />
           <Route path="/good-end" element={<GoodEnd />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/everbloom-meadow" element={<EverbloomMeadow />} />
           <Route path="/duskridge-peaks" element={<DuskridgePeaks />} />
           <Route path="/mirage-haven" element={<MirageHaven />} />

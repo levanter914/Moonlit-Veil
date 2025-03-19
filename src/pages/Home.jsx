@@ -2,6 +2,8 @@ import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Rules from "../components/Rules";
 import { MusicContext } from "../context/MusicContext";
+import LeaderboardButton from "../components/LeaderboardButton";
+
 
 const Home = () => {
   const { changeTrack } = useContext(MusicContext);
@@ -26,8 +28,9 @@ const Home = () => {
       <div className="absolute inset-0 bg-[url('./assets/landing.png')] bg-contain bg-center bg-repeat"></div>
       <div className="absolute inset-0 bg-black opacity-20"></div>
 
-        {/* Content */}
-        <div className="relative flex flex-col items-center text-center font-bold text-white w-full">
+
+      {/* Content */}
+      <div className="relative flex flex-col items-center text-center font-bold text-white w-full">
         <div className="text-5xl font-press-start drop-shadow-[4px_4px_0px_black] text-center mb-4">
           Welcome, {username}!
         </div>
@@ -45,6 +48,8 @@ const Home = () => {
         >
           Choose Your Realm
         </button>
+
+        <LeaderboardButton />
 
       </div>
     </div>
