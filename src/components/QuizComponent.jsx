@@ -59,29 +59,35 @@ const QuizComponent = ({ theme, background, titleColor, containerColor, borderCo
   };
 
   const handleAnswer = (selectedChoice) => {
-    if (answered) return;
-    setAnswered(true);
+  if (answered) return;
+  setAnswered(true);
 
-    const correct = selectedChoice === questions[currentQuestion].correct_answer;
-    setIsCorrect(correct);
-    setShowFeedback(true);
+  const correct = selectedChoice === questions[currentQuestion].correct_answer;
+  setIsCorrect(correct);
+  setShowFeedback(true);
 
-    if (correct) {
-      const newScore = score + 3;
-      setScore(newScore);
-      updateScoreInDB(newScore);
-    } else {
-      setHearts((prevHearts) => {
-        const newHearts = prevHearts - 1;
-        if (newHearts <= 0) {
-          navigate("/bad-end"); // Redirect to Bad Ending
-        }
+  if (correct) {
+    const newScore = score + 3;
+    setScore(newScore);
+    updateScoreInDB(newScore);
+  } else {
+    setHearts((prevHearts) => {
+      const newHearts = prevHearts - 1;
+      
+      if (newHearts <= 0) {
+        navigate("/bad-end"); // Redirect to Bad Ending
         return newHearts;
-      });
-    }
+      }
+      
+      return newHearts;
+    });
 
-    setTimeout(() => handleNext(), 2000);
-  };
+    return;  // 🚨 Stops execution so the question doesn't advance
+  }
+
+  setTimeout(() => handleNext(), 2000);
+};
+
 
   const handleNext = () => {
     if (currentQuestion < questions.length - 1) {
