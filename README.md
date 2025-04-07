@@ -44,24 +44,24 @@
 ## 🖼️ Gallery
 
 > 📸 A glimpse into the mystical realms of Moonlit Veil.
-![Home](https://imgur.com/a/KTy66UN)
+![Home](images/home.png)
 
 
 ### 🌸 Everbloom Meadow  
-![Everbloom Meadow](https://imgur.com/a/UOfZi6t)
+![Everbloom Meadow](images/em.png)
 
 ### ❄️ Duskridge Peaks  
-![Duskridge Peaks](https://imgur.com/a/PDlTqcd)
+![Duskridge Peaks](images/dr.png)
 
 ### 🌵 Mirage Haven  
-![Mirage Haven](https://imgur.com/a/WsC8fDu)
+![Mirage Haven](images/mh.png)
 
 ### 🌌 Celestara Peaks  
-![Celestara Peaks](https://imgur.com/a/2gKpSo0)
+![Celestara Peaks](images/ch.png)
 
 ### 📈 Ending
-![Good End](https://imgur.com/a/B66qfK7)  
-![Bad End](https://imgur.com/a/KQ7ObEc)
+![Good End](images/ge.png)  
+![Bad End](images/be.png)
 
 ---
 
