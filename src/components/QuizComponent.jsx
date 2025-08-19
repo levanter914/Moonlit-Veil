@@ -82,7 +82,7 @@ const QuizComponent = ({ theme, background, titleColor, containerColor, borderCo
       return newHearts;
     });
 
-    return;  // 🚨 Stops execution so the question doesn't advance
+    //return;  // 🚨 Stops execution so the question doesn't advance
   }
 
   setTimeout(() => handleNext(), 2000);
