@@ -3,9 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useQuiz } from "../hooks/useQuiz";
 import "nes.css/css/nes.min.css";
 import ScoreDisplay from "./ScoreDisplay";
-import { db } from "../firebase"; 
-import { doc, getDoc, setDoc , updateDoc} from "firebase/firestore";
-
+import { db } from "../firebase";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 const QuizComponent = ({ theme, background, titleColor, containerColor, borderColor, username }) => {
   const navigate = useNavigate();
@@ -18,10 +17,13 @@ const QuizComponent = ({ theme, background, titleColor, containerColor, borderCo
 
   const { questions, loading, error } = useQuiz(theme);
 
-  // Fetch score from Firebase
+  // Load or initialize user data safely
   useEffect(() => {
     const fetchScore = async () => {
-      if (!username) return;
+      if (!username) {
+        console.warn("⚠️ No username provided, skipping Firestore fetch");
+        return;
+      }
 
       const userRef = doc(db, "users", username);
       const userSnap = await getDoc(userRef);
@@ -29,76 +31,75 @@ const QuizComponent = ({ theme, background, titleColor, containerColor, borderCo
       if (userSnap.exists()) {
         const userData = userSnap.data();
         setScore(userData.score || 0);
+        console.log(`Loaded existing user: ${username} → score: ${userData.score}`);
       } else {
-        // Initialize score in Firestore
-        await setDoc(userRef, { username, score: 0 });
+        // Create new user (once), with username + score
+        console.log(`Creating new user: ${username}`);
+        await setDoc(userRef, { username, score: 0 }, { merge: true });
       }
     };
 
     fetchScore();
   }, [username]);
 
-  // Update score in Firestore
+  // Safe update for Firestore score
   const updateScoreInDB = async (newScore) => {
     if (!username) return;
-  
+
     try {
       const userRef = doc(db, "users", username);
-      const userSnap = await getDoc(userRef);
-  
-      if (userSnap.exists()) {      
-        await updateDoc(userRef, { score: newScore });
-        console.log(`Score updated for ${username}: ${newScore}`);
-      } else {
-        await setDoc(userRef, { username, score: newScore });
-        console.log(`New user score initialized for ${username}: ${newScore}`);
-      }
+      await setDoc(
+        userRef,
+        { username, score: newScore },
+        { merge: true } // prevents overwriting and ensures username always exists
+      );
+      console.log(`✅ Firestore updated: ${username} → ${newScore}`);
     } catch (error) {
-      console.error("Error updating score:", error);
+      console.error("🔥 Error updating score:", error);
     }
   };
 
+  // Handle player’s answer
   const handleAnswer = (selectedChoice) => {
-  if (answered) return;
-  setAnswered(true);
+    if (answered) return;
+    setAnswered(true);
 
-  const correct = selectedChoice === questions[currentQuestion].correct_answer;
-  setIsCorrect(correct);
-  setShowFeedback(true);
+    const correct = selectedChoice === questions[currentQuestion].correct_answer;
+    setIsCorrect(correct);
+    setShowFeedback(true);
 
-  if (correct) {
-    const newScore = score + 3;
-    setScore(newScore);
-    updateScoreInDB(newScore);
-  } else {
-    setHearts((prevHearts) => {
-      const newHearts = prevHearts - 1;
-      
-      if (newHearts <= 0) {
-        navigate("/bad-end"); // Redirect to Bad Ending
+    if (correct) {
+      const newScore = score + 3;
+      setScore(newScore);
+      updateScoreInDB(newScore);
+    } else {
+      setHearts((prevHearts) => {
+        const newHearts = prevHearts - 1;
+
+        if (newHearts <= 0) {
+          navigate("/bad-end"); // Game over
+        }
+
         return newHearts;
-      }
-      
-      return newHearts;
-    });
+      });
+    }
 
-    //return;  // 🚨 Stops execution so the question doesn't advance
-  }
+    // Continue after feedback delay
+    setTimeout(() => handleNext(), 2000);
+  };
 
-  setTimeout(() => handleNext(), 2000);
-};
-
-
+  // 🧭 4️⃣ Move to next question or realm ending
   const handleNext = () => {
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion((prev) => prev + 1);
       setShowFeedback(false);
       setAnswered(false);
     } else {
-      navigate("/good-end"); 
+      navigate("/good-end");
     }
   };
 
+  // UI / loading states
   if (loading)
     return (
       <div className="flex flex-col items-center justify-center min-h-screen space-y-4">
@@ -115,7 +116,6 @@ const QuizComponent = ({ theme, background, titleColor, containerColor, borderCo
   return (
     <div className="relative min-h-screen flex flex-col items-center justify-center px-4">
       <img src={background} alt="Theme Background" className="fixed top-0 left-0 w-full h-screen object-cover -z-10" />
-
       <ScoreDisplay score={score} hearts={hearts} />
 
       <div
@@ -134,7 +134,7 @@ const QuizComponent = ({ theme, background, titleColor, containerColor, borderCo
           <i className="nes-icon heart is-small"></i>
         </span>
 
-        <div className="nes-container is-rounded my-6 p-5" style={{ backgroundColor: "#ffffff" }}>
+        <div className="nes-container is-rounded my-6 p-5 bg-white">
           <p className="nes-text text-black drop-shadow-[2px_0px_0px_gray]">{currentQ.scenario}</p>
         </div>
 
