@@ -23,7 +23,7 @@ const QuizComponent = ({ theme, background, titleColor, containerColor, borderCo
     const fetchScore = async () => {
       if (!username) return;
 
-      const userRef = doc(db, "scores", username);
+      const userRef = doc(db, "users", username);
       const userSnap = await getDoc(userRef);
 
       if (userSnap.exists()) {
@@ -43,7 +43,7 @@ const QuizComponent = ({ theme, background, titleColor, containerColor, borderCo
     if (!username) return;
   
     try {
-      const userRef = doc(db, "scores", username);
+      const userRef = doc(db, "users", username);
       const userSnap = await getDoc(userRef);
   
       if (userSnap.exists()) {      
