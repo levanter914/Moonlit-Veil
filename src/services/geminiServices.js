@@ -8,18 +8,6 @@ if (!API_KEY) {
 
 const genAI = new GoogleGenerativeAI(API_KEY);
 
-async function listModelsREST() {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models?key=${API_KEY}`;
-  const resp = await fetch(url);
-  if (!resp.ok) {
-    console.error("ListModels REST error:", resp.status, await resp.text());
-    return null;
-  }
-  const data = await resp.json();
-  console.log("ListModels response:", data.models);
-  return data.models;
-}
-
 const QUIZ_PROMPT = `Generate 5 pixel-style, scenario-based multiple-choice quiz questions related to the theme {THEME}, where the player's choices directly impact the game world. Each scenario should present a moral or ethical dilemma faced by a traveler exploring the realm. The situations should be engaging and present real-world ethical challenges **through a pixel RPG adventure lens**.  
 
 ### Output Format:  
@@ -99,16 +87,13 @@ export async function generateQuizQuestions(theme) {
     if (!theme) {
       throw new Error("Theme is required");
     }
-
-    await listModelsREST();
     
     let model;
     try {
-      model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
     } catch {
-      model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+      model = genAI.getGenerativeModel({ model: "gemini-2.5-pro" });
     }
-
 
     if (!model) {
       throw new Error("Failed to initialize Gemini model");
