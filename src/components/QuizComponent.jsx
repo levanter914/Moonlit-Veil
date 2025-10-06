@@ -31,7 +31,7 @@ const QuizComponent = ({ theme, background, titleColor, containerColor, borderCo
         setScore(userData.score || 0);
       } else {
         // Initialize score in Firestore
-        await setDoc(userRef, { score: 0 });
+        await setDoc(userRef, { username, score: 0 });
       }
     };
 
@@ -50,7 +50,7 @@ const QuizComponent = ({ theme, background, titleColor, containerColor, borderCo
         await updateDoc(userRef, { score: newScore });
         console.log(`Score updated for ${username}: ${newScore}`);
       } else {
-        await setDoc(userRef, { score: newScore });
+        await setDoc(userRef, { username, score: newScore });
         console.log(`New user score initialized for ${username}: ${newScore}`);
       }
     } catch (error) {
